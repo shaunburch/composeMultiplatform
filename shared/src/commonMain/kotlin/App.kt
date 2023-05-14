@@ -1,3 +1,4 @@
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,12 +17,24 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    MaterialTheme {
+    MaterialTheme(colors = darkColors()) {
         Scaffold(
-            topBar = { TopAppBar { Text("App") } }
+            topBar = {
+                TopAppBar(contentPadding = PaddingValues(16.dp, 0.dp)) {
+                    Image(
+                        painter = painterResource("compose-multiplatform.xml"),
+                        contentDescription = "Compose Multiplatform",
+                        modifier = Modifier.padding(8.dp).size(32.dp)
+                    )
+                    Text("Chat: ${getPlatformName()}")
+                }
+            }
         ) { padding ->
             var messages by remember { mutableStateOf<List<Message>>(emptyList()) }
             Column(
